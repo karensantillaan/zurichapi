@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zurichapi", "zurichapi\zurichapi.csproj", "{DB422D5A-D0F9-4035-95CE-2CA0DF4E88CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB422D5A-D0F9-4035-95CE-2CA0DF4E88CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB422D5A-D0F9-4035-95CE-2CA0DF4E88CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB422D5A-D0F9-4035-95CE-2CA0DF4E88CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB422D5A-D0F9-4035-95CE-2CA0DF4E88CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA531BE9-3C72-424E-9381-9CCC802D5303}
+	EndGlobalSection
+EndGlobal
