@@ -32,13 +32,10 @@ namespace zurichapi.Repositories
         }
 
         public async Task<List<Cliente>> GetAllAsync() => 
-            await _context.Clientes
-                .Include(c => c.Polizas)
-                .ToListAsync();
+            await _context.Clientes.Include(c => c.Polizas).ToListAsync();
 
         public async Task<Cliente> GetByIdAsync(int id) => 
-            await _context.Clientes
-                .Include(c => c.Polizas)
+            await _context.Clientes.Include(c => c.Polizas)
                 .FirstOrDefaultAsync(c => c.Id == id)
                 ?? throw new KeyNotFoundException($"Cliente with ID {id} not found.");
 

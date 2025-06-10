@@ -14,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add services to the container.
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IPolizaRepository, PolizaRepository>();
+builder.Services.AddScoped<IPolizaService, PolizaService>();
 
 builder.Services.AddControllers();
 
