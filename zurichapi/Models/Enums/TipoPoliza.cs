@@ -2,9 +2,9 @@
 {
     public enum TipoPoliza
     {
-        Vida,
-        Automovil,
-        Salud,
-        Hogar
+        Vida = 0,
+        Automovil = 1,
+        Salud = 2,
+        Hogar = 3
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using zurichapi.Models;
@@ -6,6 +7,7 @@ using zurichapi.Services.Interfaces;
 
 namespace zurichapi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase
@@ -19,7 +21,12 @@ namespace zurichapi.Controllers
             _polizaService = polizaService;
         }
 
-        [Authorize(Roles = "Admin")]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            return Ok(User.Claims.Select(c => new { c.Type, c.Value }));
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetClientes() =>
             Ok(await _clienteService.GetClientesAsync());
@@ -32,7 +39,6 @@ namespace zurichapi.Controllers
             return cliente == null ? NotFound() : Ok(cliente);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCliente([FromBody] Cliente cliente)
         {
@@ -51,7 +57,6 @@ namespace zurichapi.Controllers
             return Ok(updatedClient);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCliente(int id)
         {

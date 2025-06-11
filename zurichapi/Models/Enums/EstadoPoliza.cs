@@ -2,7 +2,7 @@
 {
     public enum EstadoPoliza
     {
-        Activa,
-        Cancelada
+        Activa = 0,
+        Cancelada = 1
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using zurichapi.Models.Enums;
 
 namespace zurichapi.Models
@@ -32,8 +33,10 @@ namespace zurichapi.Models
 
         // Relación con Cliente
         [Required]
-        public int ClienteId { get; set; }
         [ForeignKey("ClienteId")]
-        public required Cliente Cliente { get; set; }
+        public int ClienteId { get; set; }
+        
+        [JsonIgnore] // ← Esto evita que ASP.NET intente enlazar esta propiedad desde el JSON
+        public virtual Cliente? Cliente { get; set; }
     }
 }

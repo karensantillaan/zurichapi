@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,14 +44,41 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = issuer,
             ValidAudience = audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+            RoleClaimType = ClaimTypes.Role
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine("Authentication failed: " + context.Exception.Message);
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("Token validado correctamente");
+                return Task.CompletedTask;
+            }
         };
     });
 
 builder.Services.AddControllers();
+// CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "ZurichAPI", Version = "v1" });
@@ -78,6 +106,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Crea los roles
@@ -114,12 +145,31 @@ async Task CrearRolesInicialesAsync(RoleManager<IdentityRole> roleManager, UserM
     }
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+builder.Logging.AddConsole();
+
+app.Use(async (context, next) =>
 {
+    Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+    if (context.Request.Headers.TryGetValue("Authorization", out var authHeader))
+    {
+        Console.WriteLine($"Authorization header: {authHeader}");
+        Console.WriteLine($"User: {context.User.Identity.IsAuthenticated}");
+    }
+    else
+    {
+        Console.WriteLine("Authorization header: NO ESTA PRESENTE");
+    }
+    await next();
+});
+
+// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
+
+app.UseCors("AllowAngularFrontend");
 
 app.UseHttpsRedirection();
 

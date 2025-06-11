@@ -24,6 +24,7 @@ namespace zurichapi.Services
             if (cliente == null) throw new Exception("Cliente no encontrado");
             
             poliza.ClienteId = clienteId;
+            //poliza.Cliente = cliente;
             return await _polizaRepository.CreateAsync(poliza);
         }
 
