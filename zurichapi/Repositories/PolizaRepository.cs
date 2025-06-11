@@ -39,6 +39,14 @@ namespace zurichapi.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id)
                 ?? throw new KeyNotFoundException($"Poliza with ID {id} not found.");
 
+        public async Task<List<Poliza>> GetPolizasByClienteIdAsync(int clienteId)
+        {
+            return await _context.Polizas
+                .Where(p => p.ClienteId == clienteId)
+                .Include(p => p.Cliente)
+                .ToListAsync();
+        }
+
         public async Task<Poliza> UpdateAsync(Poliza poliza)
         {
             _context.Polizas.Update(poliza);

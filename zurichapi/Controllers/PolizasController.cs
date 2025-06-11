@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using zurichapi.Models;
 using zurichapi.Services.Interfaces;
@@ -27,6 +28,7 @@ namespace zurichapi.Controllers
             return poliza == null ? NotFound() : Ok(poliza);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreatePoliza([FromBody] Poliza poliza)
         {
@@ -44,6 +46,7 @@ namespace zurichapi.Controllers
             return Ok(updatedPoliza);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeletePoliza(int id)
         {

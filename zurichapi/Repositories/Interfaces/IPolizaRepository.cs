@@ -9,5 +9,6 @@ namespace zurichapi.Repositories.Interfaces
         Task<Poliza> CreateAsync(Poliza poliza);
         Task<Poliza> UpdateAsync(Poliza poliza);
         Task<bool> DeleteAsync(int id);
+        Task<List<Poliza>> GetPolizasByClienteIdAsync(int clienteId);
     }
 }
